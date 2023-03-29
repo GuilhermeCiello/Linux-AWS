@@ -1,0 +1,19 @@
+!# /bin/bash 
+
+data=$(date "%d,%m,%y")
+
+dataHora=$(date "%H,%M,%S)
+
+status=$(systemctl status httpd)
+
+nomeServico="Apache"
+
+if systemctl status httpd | grep -q "active (running)";
+
+then
+
+echo "O serviço de Apache esta online"
+
+else 
+	echo "O serviço de Apache esta offline"
+
