@@ -3,7 +3,7 @@
 nomeServico="Apache"
 data=$(date + "%d/%m/%y")
 dataHora=$(date + "%H:%M:%S")
-status=$(systemctl status httpd)
+status=$(systemctl is-active httpd.service)
 touch statusApache2.txt
  
 #condicao para verifificar se o apache esta rodando na instancia ec2 
@@ -14,10 +14,14 @@ then
 
 #envia as informacoes para o diretorio EFS 
 
-echo "O servico $nomeServico esta rodando na data $data $dataHora com o status $status" >> /mnt/efs/guilherme/online/statusApache.txt
+echo "O servico $nomeServico esta online rodando na data $data $dataHora com o status $status" >> statusApache.txt
+mv statusApache.txt /mnt/efs/guilherme/online
 
 else
-echo "O servico $nomeServico esta com o status offline na data $data e $data Hora" >> statusApache2.txt
+
+echo "O servico $nomeServico esta offline na data $data e $data Hora" >> statusApache2.txt
+
 fi
+
 #envia as informacoes para outro diretorio EFS caso o apache esta offline
 mv statusApache2.txt /mnt/efs/guilherme/offline
