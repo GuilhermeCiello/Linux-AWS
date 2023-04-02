@@ -1,0 +1,12 @@
+Construção da instancia
+
+Configuação da AWS CLI com o usuario "guilherme" criado na console AWS com permissões totais
+
+Geração do par de chaves atraves da AWS CLI = aws ec2 create-key-pair --key-name ParChaves --query 
+'KeyMaterial' --output text > ParChaves.pem
+
+Criação da instancia = aws ec2 run-instances --image-id "ami-04581fbf744a7d11f" --count 1 
+--instante-type "t3.small" --key-name "Chaves2" --security-group-ids "sg-0b012d65e5f2844" 
+--subnet-id "subnet-0s9a7b8r4f7d422b8"
+
+
