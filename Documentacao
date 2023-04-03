@@ -1,0 +1,17 @@
+  Construção da instância
+
+Configuração da AWS CLI como o usuario "guilherme" criado na console AWS com permissões totais
+
+Geração do par de chaves através da AWS CLI configurada na VM Debian = aws ec2 create-key-pair --key-name Chaves2 --query 'KeyMaterial' --output text  > Chaves2.pem
+
+Criação da instância = aws ec2 run-instances --image-id "ami-04581fbf744a7d11f" --count 1 --instance-type "t3.small" --key-name "Chaves2" 
+--security-group-ids "id sg" --subnet-id "id subnet"
+
+Acesso via SSH a instância pelo Debian = ssh -i "Chaves2.pem" ec2-user@ec2-3-83-63-132.compute-1.amazonaws.com
+
+Configuração dentro da instância
+
+Instalação do Apache Service e criação de um arquivo html dentro do /var/www/html
+Associação da EFS a instancia = sud mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport id "id efs":/ /mnt/efs
+Criação de um diretorio com meu nome dentro do /mnt/efs e dentro do /mnt/efs/guilherme criando mais 2 diretorios, um para quando o Apache esta online e outro para quando estiver offline
+Configurado o crontab para rodar o script de verificação a cada 5 minutos = */5 * * * * /bin/bash scriptVerificaApache.sh
